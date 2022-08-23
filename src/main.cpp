@@ -46,6 +46,9 @@ int main()
     // Shaders
     GLuint programID = LoadShaders("shaders/vertex.vert", "shaders/fragment.frag");
 
+
+
+
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
