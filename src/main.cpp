@@ -15,16 +15,16 @@ int main()
     glGenVertexArrays(1, &VertexArrayID);
     glBindVertexArray(VertexArrayID);
 
-    const GLfloat g_vertex_matrix[] = {
-       0.f, 1.f, 0.f,    // V1.position
-       1.f, -1.f, 0.f,   // V2.position
-       -1.f, -1.f, 0.f,
-    };
+    static const GLfloat g_vertex_matrix[] = { 
+		-1.0f, -1.0f, 0.0f,
+        1.0f, -1.0f, 0.0f,
+        0.0f,  1.0f, 0.0f,
+	};
 
-    const GLfloat colorData[] = {
-        1.f, 0.f, 0.f,
-        0.f, 1.f, 0.f,
-        0.f, 0.f, 1.f
+    static const GLfloat colorData[] = {
+        0.583f,  0.771f,  0.014f,
+		0.609f,  0.115f,  0.436f,
+		0.327f,  0.483f,  0.844f,
     };
 
     GLuint programID = load_shaders("shaders/vertex.vert", "shaders/fragment.frag");
@@ -41,11 +41,11 @@ int main()
 
     glm::mat4 projection = glm::perspective(
         glm::radians((float)CAMERA_FOV),
-        16.0f / 9.0f, 0.1f, 100.0f
+        4.0f / 3.0f, 0.1f, 100.0f
     );
 
     glm::mat4 view = glm::lookAt(
-        glm::vec3(4, 3, -3),
+        glm::vec3(4, 3, 3),
         glm::vec3(0, 0, 0),
         glm::vec3(0, 1, 0)
     );
@@ -55,30 +55,36 @@ int main()
     glm::mat4 mvp = projection * view * model;
 
     GLuint matrix_id = glGetUniformLocation(programID, "MVP");
-    GLuint color_id = glGetAttribLocation(programID, "CLR");
 
     // Main Loop
     do {
-        /* glClear( GL_COLOR_BUFFER_BIT ); */
-        /* glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); */
-
-        glUniformMatrix4fv(matrix_id, 1, GL_FALSE, &mvp[0][0]);
-        glEnableVertexAttribArray(matrix_id);
-        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-        glVertexAttribPointer(matrix_id, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-
-        glEnableVertexAttribArray(color_id);
-        glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-        glVertexAttribPointer(color_id, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+        glClear( GL_COLOR_BUFFER_BIT );
 
         glUseProgram(programID);
 
+        glUniformMatrix4fv(matrix_id, 1, GL_FALSE, &mvp[0][0]);
+        glEnableVertexAttribArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+        glEnableVertexAttribArray(1);
+        glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+
         glDrawArrays(GL_TRIANGLES, 0, 3);
+
         glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
     } while (!glfwWindowShouldClose(window));
+
+	glDeleteBuffers(1, &vertexbuffer);
+	glDeleteBuffers(1, &colorbuffer);
+	glDeleteProgram(programID);
+	glDeleteVertexArrays(1, &VertexArrayID);
 
     glfwTerminate();
     return 0;
