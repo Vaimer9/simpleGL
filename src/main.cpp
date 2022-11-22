@@ -16,15 +16,15 @@ int main()
     glBindVertexArray(VertexArrayID);
 
     static const GLfloat g_vertex_matrix[] = { 
-		-1.0f, -1.0f, 0.0f,
-        1.0f, -1.0f, 0.0f,
+		-2.f, -1.0f, 0.0f,
+        0.f, -1.0f, 0.0f,
         0.0f,  1.0f, 0.0f,
 	};
 
     static const GLfloat colorData[] = {
-        0.583f,  0.771f,  0.014f,
-		0.609f,  0.115f,  0.436f,
-		0.327f,  0.483f,  0.844f,
+        1.f, 0.f, 0.f,
+        0.f, 1.f, 0.f,
+        0.f, 0.f, 1.f
     };
 
     GLuint programID = load_shaders("shaders/vertex.vert", "shaders/fragment.frag");
@@ -37,7 +37,7 @@ int main()
     GLuint colorbuffer;
     glGenBuffers(1, &colorbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(colorbuffer), colorData, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(colorData), colorData, GL_STATIC_DRAW);
 
     glm::mat4 projection = glm::perspective(
         glm::radians((float)CAMERA_FOV),
