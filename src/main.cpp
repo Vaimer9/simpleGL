@@ -2,7 +2,6 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
 #include <utils.hpp>
 #include <config.hpp>
@@ -11,80 +10,77 @@ int main()
 {
     GLFWwindow* window = gl_init();
 
-    GLuint VertexArrayID;
-    glGenVertexArrays(1, &VertexArrayID);
-    glBindVertexArray(VertexArrayID);
+    GLuint vbo;
+    glGenVertexArrays(1, &vbo);
+    glBindVertexArray(vbo);
 
     static const GLfloat g_vertex_matrix[] = { 
-		-2.f, -1.0f, 0.0f,
-        0.f, -1.0f, 0.0f,
-        0.0f,  1.0f, 0.0f,
+        -0.5f, -0.5f, 0.0f,
+        0.5f, -0.5f, 0.0f,
+        0.5f,  0.5f, 0.0f,
+        -0.5f, 0.5f, 0.0f,
 	};
 
-    static const GLfloat colorData[] = {
-        1.f, 0.f, 0.f,
-        0.f, 1.f, 0.f,
-        0.f, 0.f, 1.f
+    static const unsigned int indices[] = {
+        0, 1, 2,
+        2, 3, 0,
     };
 
-    GLuint programID = load_shaders("shaders/vertex.vert", "shaders/fragment.frag");
+    GLuint programID = load_shaders("../shaders/vertex.vert", "../shaders/fragment.frag");
 
     GLuint vertexbuffer;
     glGenBuffers(1, &vertexbuffer);
     glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_matrix), g_vertex_matrix, GL_STATIC_DRAW);
 
-    GLuint colorbuffer;
-    glGenBuffers(1, &colorbuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(colorData), colorData, GL_STATIC_DRAW);
+    GLuint ibo;
+    glGenBuffers(1, &ibo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+    
+    glUseProgram(programID);
 
-    glm::mat4 projection = glm::perspective(
-        glm::radians((float)CAMERA_FOV),
-        4.0f / 3.0f, 0.1f, 100.0f
-    );
+    GLuint v_loc = glGetUniformLocation(programID, "v_Pos");
 
-    glm::mat4 view = glm::lookAt(
-        glm::vec3(4, 3, 3),
-        glm::vec3(0, 0, 0),
-        glm::vec3(0, 1, 0)
-    );
+    glUniform2f(v_loc, 0.f, 0.f);
 
-    glm::mat4 model = glm::mat4(1.0f);
 
-    glm::mat4 mvp = projection * view * model;
+    float vel = 0.001f;
 
-    GLuint matrix_id = glGetUniformLocation(programID, "MVP");
-
-    // Main Loop
+    float x, y = 0;
     do {
         glClear( GL_COLOR_BUFFER_BIT );
+        glUniform2f(v_loc, x, y);
+        
+        if (glfwGetKey(window, GLFW_KEY_W)) {
+            y += vel;
+        } else if (glfwGetKey(window, GLFW_KEY_S)) {
+            y -= vel;
+        } else if (glfwGetKey(window, GLFW_KEY_A)) {
+            x -= vel;
+        } else if (glfwGetKey(window, GLFW_KEY_D)) {
+            x += vel;
+        }
 
-        glUseProgram(programID);
-
-        glUniformMatrix4fv(matrix_id, 1, GL_FALSE, &mvp[0][0]);
         glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-        glEnableVertexAttribArray(1);
-        glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 
-
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        /* glDrawArrays(GL_TRIANGLES, 0, 6); */
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
         glDisableVertexAttribArray(0);
-        glDisableVertexAttribArray(1);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
-    } while (!glfwWindowShouldClose(window));
+    } while (glfwGetKey(window, GLFW_KEY_Q ) != GLFW_PRESS &&
+        !glfwWindowShouldClose(window));
 
-	glDeleteBuffers(1, &vertexbuffer);
-	glDeleteBuffers(1, &colorbuffer);
+    glDeleteBuffers(1, &vertexbuffer);
 	glDeleteProgram(programID);
-	glDeleteVertexArrays(1, &VertexArrayID);
+	glDeleteVertexArrays(1, &vbo);
 
     glfwTerminate();
     return 0;

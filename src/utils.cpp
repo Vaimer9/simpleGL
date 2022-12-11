@@ -35,6 +35,7 @@ GLFWwindow* gl_init()
     glViewport(0, 0, 800, 600);
     // update gl viewport when glfw window resizes
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSwapInterval(1);
 
     return window;
 }

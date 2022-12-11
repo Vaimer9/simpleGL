@@ -7,6 +7,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <functional>
 
 namespace Utilities {
     GLuint get_projection_view_matrix_id();
