@@ -6,8 +6,14 @@ set(CMAKE_CXX_STANDARD 20)
 
 set(SOURCES 
     src/main.cpp
+    src/shader.cpp
     src/utils.cpp
+    src/window.cpp
+    src/targets.cpp
+    src/vao.cpp
+    src/vbo.cpp
 )
+
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include_directories(include)
 add_executable(main ${SOURCES})
