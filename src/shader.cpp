@@ -116,15 +116,33 @@ Shader& Shader::set_vec2(std::string name, glm::vec2& val)
     return *this;
 }
 
+Shader& Shader::set_vec2(std::string name, float x, float y)
+{
+    glUniform2f(glGetUniformLocation(this->id(), name.c_str()), x, y);
+    return *this;
+}
+
 Shader& Shader::set_vec3(std::string name, glm::vec3& val)
 {
     glUniform3f(glGetUniformLocation(this->id(), name.c_str()), val.x, val.y, val.z);
     return *this;
 }
 
+Shader& Shader::set_vec3(std::string name, float x, float y, float z)
+{
+    glUniform3f(glGetUniformLocation(this->id(), name.c_str()), x, y, z);
+    return *this;
+}
+
 Shader& Shader::set_vec4(std::string name, glm::vec4& val)
 {
     glUniform4f(glGetUniformLocation(this->id(), name.c_str()), val.x, val.y, val.z, val.w);
+    return *this;
+}
+
+Shader& Shader::set_vec4(std::string name, float x, float y, float z, float w)
+{
+    glUniform4f(glGetUniformLocation(this->id(), name.c_str()), x, y, z, w);
     return *this;
 }
 

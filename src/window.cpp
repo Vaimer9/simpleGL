@@ -14,6 +14,16 @@ GLFWwindow* Window::get_handle()
     return window_handle;
 }
 
+Window::~Window()
+{
+    glfwDestroyWindow(window_handle);    
+}
+
+bool Window::get_key(int key)
+{
+    return glfwGetKey(window_handle, key);
+}
+
 void Window::init()
 {
     window_handle =
@@ -28,7 +38,7 @@ void Window::init()
     glfwSwapInterval(1);
 
     glViewport(0, 0, window_width, window_height);
-    glfwSetFramebufferSizeCallback(window_handle, framebuffer_size_callback);
+    glfwSetFramebufferSizeCallback(window_handle, Utilities::framebuffer_size_callback);
     glfwSwapInterval(1);
 }
 
@@ -37,7 +47,3 @@ void Window::swap_buffers()
     glfwSwapBuffers(window_handle);
 }
 
-Window::~Window()
-{
-    glfwDestroyWindow(window_handle);    
-}

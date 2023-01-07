@@ -14,6 +14,7 @@ public:
     Window(std::string title, int width, int height);
     
     GLFWwindow* get_handle();
+    bool get_key(int key);
     void init();
     void swap_buffers();
     ~Window();

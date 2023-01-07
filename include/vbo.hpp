@@ -2,26 +2,51 @@
 #include <GL/glew.h>
 #include <shader.hpp>
 
-class Vbo {
-private:
+class Vbo
+{
+public:
     void* data_;
     GLuint handle_;
     GLenum target_;
-    size_t size_;
+    int len_;
 
-public:
-    Vbo(size_t buf_size);
-    Vbo(size_t buf_size, GLenum target);
-    Vbo(size_t buf_size, GLenum target, void* data, size_t data_size, GLenum usage);
+    Vbo() {}
+    Vbo(GLenum target);
+    Vbo(GLenum target, void* data, size_t data_size, GLenum usage);
     ~Vbo();
     
-    void gen_buffers(size_t size);
+    GLenum& target();
+    int& len();
+    void gen_buffers();
     void bind();
-    void unbind();
+    virtual void unbind();
     void set_data(GLenum, void* data, size_t data_size, GLenum usage);
-    static void unbind(GLenum target) {
+    void*& data();
+
+    static void unbind(GLenum target)
+    {
         glBindBuffer(target, 0);
     }
+};
 
-    void*& data();
+class ArrayBuffer : public Vbo
+{
+    size_t size_;
+    GLenum type_;
+    bool normalized_;
+    size_t stride_;
+public:
+    ArrayBuffer(void* data, size_t data_size, GLenum usage);
+
+    ArrayBuffer& set_size(size_t size);
+    ArrayBuffer& set_type(GLenum type);
+    ArrayBuffer& set_normalized(bool normalized);
+    ArrayBuffer& set_stride(size_t stride);
+
+    size_t& size();
+    GLenum& type();
+    bool& normalized();
+    size_t& stride();
+
+    virtual void unbind() override;
 };

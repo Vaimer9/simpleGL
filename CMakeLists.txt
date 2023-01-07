@@ -5,11 +5,11 @@ project(main)
 set(CMAKE_CXX_STANDARD 20)
 
 set(SOURCES 
+    src/mesh.cpp
     src/main.cpp
     src/shader.cpp
     src/utils.cpp
     src/window.cpp
-    src/targets.cpp
     src/vao.cpp
     src/vbo.cpp
 )

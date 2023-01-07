@@ -1,3 +1,4 @@
+#include "mesh.hpp"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/fwd.hpp>
@@ -23,8 +24,6 @@ int main()
         exit(-1);
     }
 
-    Vao vao = Vao(1);
-    vao.bind();
 
     float offset = 0.7f;
 
@@ -44,41 +43,59 @@ int main()
     shaders.load_shaders();
     shaders.use();
 
-    Vbo vertices = Vbo(1, GL_ARRAY_BUFFER, (void*)g_vertex_matrix, sizeof(g_vertex_matrix), GL_STATIC_DRAW);
-    Vbo elements = Vbo(1, GL_ELEMENT_ARRAY_BUFFER, (void*)indices, 6 * sizeof(unsigned int), GL_STATIC_DRAW);
+    ArrayBuffer vertices = ArrayBuffer(
+        (void*)g_vertex_matrix,
+        sizeof(g_vertex_matrix),
+        GL_STATIC_DRAW
+    );
+
+    Vbo elements = Vbo(
+        GL_ELEMENT_ARRAY_BUFFER,
+        (void*)indices,
+        sizeof(indices),
+        GL_STATIC_DRAW
+    );
+
+    Vao vao = Vao(1);
+    vao.bind();
+    vao.add_array_buffer(
+        0,
+        &vertices.set_size(3)
+            .set_type(GL_UNSIGNED_INT)
+            .set_normalized(GL_FALSE)
+            .set_stride(0)
+    );
+    vao.add_element_buffer(&elements);
 
     glm::vec2 adv = glm::vec2(0, 0);
-
     shaders.set_vec2("v_Pos", adv);
 
-    float vel = 0.001f;
+    vao.bind();
+
+    Mesh rectangle = Mesh(&vao, &shaders);
+    rectangle.set_vertices(6);
+
+    float vel = 0.005f;
 
     do {
         glClear(GL_COLOR_BUFFER_BIT);
         shaders.set_vec2("v_Pos", adv);
 
-        if (glfwGetKey(window.get_handle(), GLFW_KEY_W)) {
+        if (window.get_key(GLFW_KEY_W)) {
             adv.y += vel;
-        } else if (glfwGetKey(window.get_handle(), GLFW_KEY_S)) {
+        } else if (window.get_key(GLFW_KEY_S)) {
             adv.y -= vel;
-        } else if (glfwGetKey(window.get_handle(), GLFW_KEY_A)) {
+        } else if (window.get_key(GLFW_KEY_A)) {
             adv.x -= vel;
-        } else if (glfwGetKey(window.get_handle(), GLFW_KEY_D)) {
+        } else if (window.get_key(GLFW_KEY_D)) {
             adv.x += vel;
         }
 
-        vertices.bind();
-        elements.bind();
-            glEnableVertexAttribArray(0);
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-            glDisableVertexAttribArray(0);
-        vertices.unbind();
-        elements.unbind();
-
+        rectangle.render();
         window.swap_buffers();
+
         glfwPollEvents();
-    } while (glfwGetKey(window.get_handle(), GLFW_KEY_Q) != GLFW_PRESS &&
+    } while (window.get_key(GLFW_KEY_Q) != GLFW_PRESS &&
         !glfwWindowShouldClose(window.get_handle()));
 
     return 0;

@@ -1,34 +1,50 @@
 #include <vbo.hpp>
+#include <iostream>
 
-Vbo::Vbo(size_t buf_size, GLenum target)
+Vbo::Vbo(GLenum target)
 {
-    size_ = buf_size;
     target_ = target;
-    glGenBuffers(buf_size, &handle_);
+    glGenBuffers(1, &handle_);
 }
 
-Vbo::Vbo(size_t buf_size, GLenum target, void* data, size_t data_size, GLenum usage)
+Vbo::Vbo(GLenum target, void* data, size_t data_size, GLenum usage)
 {
+    if (target == GL_ELEMENT_ARRAY_BUFFER)
+    {
+        len_ = data_size / sizeof(unsigned int);
+    } else
+    {
+        len_ = data_size / sizeof(float);
+    }
+
     data_ = data;
     target_ = target;
-    size_ = buf_size;
 
-    glGenBuffers(buf_size, &handle_);
+    glGenBuffers(1, &handle_);
     this->bind();
     glBufferData(target, data_size, data_, usage);
-    Vbo::unbind(target_);
+    this->unbind();
 }
 
 Vbo::~Vbo()
 {
-    glDeleteBuffers(this->size_, &this->handle_);
+    glDeleteBuffers(1, &this->handle_);
 }
 
-void Vbo::gen_buffers(size_t buf_size)
+GLenum& Vbo::target()
+{
+    return target_;
+}
+
+int& Vbo::len()
+{
+    return len_;
+}
+
+void Vbo::gen_buffers()
 {
     this->bind();
-    glGenBuffers(buf_size, &handle_);
-    glBindBuffer(target_, 0);
+    glGenBuffers(1, &handle_);
     Vbo::unbind(target_);
 }
 
@@ -45,7 +61,71 @@ void Vbo::unbind()
 void Vbo::set_data(GLenum target, void* data, size_t data_size, GLenum usage)
 {
     data_ = data;
+    target_ = target;
+
     this->bind();
     glBufferData(target, data_size, data_, usage);
     Vbo::unbind(target_);
 }
+
+ArrayBuffer::ArrayBuffer(void* data, size_t data_size, GLenum usage)
+{
+    len_ = data_size / sizeof(float);
+    data_ = data;
+    target_ = GL_ARRAY_BUFFER;
+
+    glGenBuffers(1, &handle_);
+    this->bind();
+    glBufferData(GL_ARRAY_BUFFER, data_size, data, usage);
+}
+
+void ArrayBuffer::unbind()
+{
+    Vbo::unbind(GL_ARRAY_BUFFER);
+}
+
+ArrayBuffer& ArrayBuffer::set_size(size_t size)
+{
+    size_ = size;
+    return *this;
+}
+
+ArrayBuffer& ArrayBuffer::set_type(GLenum type)
+{
+    type_ = type;
+    return *this;
+}
+
+ArrayBuffer& ArrayBuffer::set_normalized(bool normalized)
+{
+    normalized_ = normalized;
+    return *this;
+}
+
+ArrayBuffer& ArrayBuffer::set_stride(size_t stride)
+{
+    stride_ = stride;
+    return *this;
+}
+
+size_t& ArrayBuffer::size()
+{
+    return size_;
+}
+
+GLenum& ArrayBuffer::type()
+{
+    return type_;
+}
+
+bool& ArrayBuffer::normalized()
+{
+    return normalized_;
+}
+
+size_t& ArrayBuffer::stride()
+{
+    return stride_;
+}
+
+
