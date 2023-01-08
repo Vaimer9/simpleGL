@@ -1,5 +1,4 @@
 #include <utils.hpp>
-#include <config.hpp>
 
 using namespace Utilities;
 

@@ -10,12 +10,11 @@
 #include <vbo.hpp>
 
 #include <utils.hpp>
-#include <config.hpp>
 
 int main()
 {
     Utilities::glfw_init();
-    Window window = Window(WINDOW_NAME, WINDOW_WIDTH, WINDOW_HEIGHT);
+    Window window = Window("Opengl Window", 800, 600);
     window.init();
 
     if (glewInit() != GLEW_OK)
@@ -23,7 +22,6 @@ int main()
         std::cout << "Error!" << std::endl;
         exit(-1);
     }
-
 
     const float offset = 0.7f;
 
