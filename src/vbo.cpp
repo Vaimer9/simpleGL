@@ -9,14 +9,6 @@ Vbo::Vbo(GLenum target)
 
 Vbo::Vbo(GLenum target, void* data, size_t data_size, GLenum usage)
 {
-    if (target == GL_ELEMENT_ARRAY_BUFFER)
-    {
-        len_ = data_size / sizeof(unsigned int);
-    } else
-    {
-        len_ = data_size / sizeof(float);
-    }
-
     data_ = data;
     target_ = target;
 
@@ -34,11 +26,6 @@ Vbo::~Vbo()
 GLenum& Vbo::target()
 {
     return target_;
-}
-
-int& Vbo::len()
-{
-    return len_;
 }
 
 void Vbo::gen_buffers()
@@ -70,7 +57,6 @@ void Vbo::set_data(GLenum target, void* data, size_t data_size, GLenum usage)
 
 ArrayBuffer::ArrayBuffer(void* data, size_t data_size, GLenum usage)
 {
-    len_ = data_size / sizeof(float);
     data_ = data;
     target_ = GL_ARRAY_BUFFER;
 

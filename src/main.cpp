@@ -25,16 +25,16 @@ int main()
     }
 
 
-    float offset = 0.7f;
+    const float offset = 0.7f;
 
-    static const GLfloat g_vertex_matrix[] = { 
+    const GLfloat g_vertex_matrix[] = { 
         -0.20f - offset, -0.5f, 0.0f, // bottom left
         0.0f - offset, -0.5f, 0.0f, // bottom right
         0.0f - offset,  0.5f, 0.0f, // top right
         -0.20f - offset, 0.5f, 0.0f, // top left
 	};
 
-    static const unsigned int indices[] = {
+    const unsigned int indices[] = {
         0, 1, 2,
         2, 3, 0
     };
@@ -61,7 +61,7 @@ int main()
     vao.add_array_buffer(
         0,
         &vertices.set_size(3)
-            .set_type(GL_UNSIGNED_INT)
+            .set_type(GL_FLOAT)
             .set_normalized(GL_FALSE)
             .set_stride(0)
     );
@@ -94,9 +94,8 @@ int main()
         rectangle.render();
         window.swap_buffers();
 
-        glfwPollEvents();
-    } while (window.get_key(GLFW_KEY_Q) != GLFW_PRESS &&
-        !glfwWindowShouldClose(window.get_handle()));
+        Window::poll_events();
+    } while (!window.get_key(GLFW_KEY_Q) && !window.should_close());
 
     return 0;
 }

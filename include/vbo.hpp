@@ -8,7 +8,6 @@ public:
     void* data_;
     GLuint handle_;
     GLenum target_;
-    int len_;
 
     Vbo() {}
     Vbo(GLenum target);
@@ -16,7 +15,6 @@ public:
     ~Vbo();
     
     GLenum& target();
-    int& len();
     void gen_buffers();
     void bind();
     virtual void unbind();

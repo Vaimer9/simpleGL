@@ -3,47 +3,52 @@
 
 Window::Window(std::string title, int w, int h)
 {
-    window_title = title;
-    window_width = w;
-    window_height = h;
-    window_handle = NULL;
+    title_ = title;
+    width_ = w;
+    height_ = h;
+    handle_ = NULL;
 }
 
-GLFWwindow* Window::get_handle()
+bool Window::should_close()
 {
-    return window_handle;
+    return glfwWindowShouldClose(handle_);
+}
+
+GLFWwindow* Window::handle()
+{
+    return handle_;
 }
 
 Window::~Window()
 {
-    glfwDestroyWindow(window_handle);    
+    glfwDestroyWindow(handle_);    
 }
 
 bool Window::get_key(int key)
 {
-    return glfwGetKey(window_handle, key);
+    return glfwGetKey(handle_, key);
 }
 
 void Window::init()
 {
-    window_handle =
-        glfwCreateWindow(window_width, window_height, window_title.c_str(), nullptr, nullptr);
-    if (!window_handle)
+    handle_ =
+        glfwCreateWindow(width_, height_, title_.c_str(), nullptr, nullptr);
+    if (!handle_)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
         exit(-1);
     }
-    glfwMakeContextCurrent(window_handle);
+    glfwMakeContextCurrent(handle_);
     glfwSwapInterval(1);
 
-    glViewport(0, 0, window_width, window_height);
-    glfwSetFramebufferSizeCallback(window_handle, Utilities::framebuffer_size_callback);
+    glViewport(0, 0, width_, height_);
+    glfwSetFramebufferSizeCallback(handle_, Utilities::framebuffer_size_callback);
     glfwSwapInterval(1);
 }
 
 void Window::swap_buffers() 
 {
-    glfwSwapBuffers(window_handle);
+    glfwSwapBuffers(handle_);
 }
 
