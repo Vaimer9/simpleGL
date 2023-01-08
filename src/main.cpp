@@ -57,8 +57,8 @@ int main()
     Vao vao = Vao(1);
     vao.bind();
     vao.add_array_buffer(
-        0,
-        &vertices.set_size(3)
+        &vertices.set_index(0)
+            .set_size(3)
             .set_type(GL_FLOAT)
             .set_normalized(GL_FALSE)
             .set_stride(0)

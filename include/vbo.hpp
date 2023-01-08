@@ -29,13 +29,16 @@ public:
 
 class ArrayBuffer : public Vbo
 {
+    int index_;
     size_t size_;
     GLenum type_;
     bool normalized_;
     size_t stride_;
+
 public:
     ArrayBuffer(void* data, size_t data_size, GLenum usage);
 
+    ArrayBuffer& set_index(int index);
     ArrayBuffer& set_size(size_t size);
     ArrayBuffer& set_type(GLenum type);
     ArrayBuffer& set_normalized(bool normalized);
@@ -45,6 +48,7 @@ public:
     GLenum& type();
     bool& normalized();
     size_t& stride();
+    int& index();
 
     virtual void unbind() override;
 };

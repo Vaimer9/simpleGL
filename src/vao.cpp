@@ -19,18 +19,19 @@ void Vao::bind()
     glBindVertexArray(this->handle());
 }
 
-void Vao::add_array_buffer(int attribute_index, Vbo* vbo)
+void Vao::add_array_buffer(ArrayBuffer* vbo)
 {
     this->bind();
     vbo->bind();
-    array_buffers_[attribute_index] = (ArrayBuffer*)vbo;
+    array_buffers_.push_back(vbo);
+
 }
 
-void Vao::add_array_buffer(std::vector<std::pair<int, Vbo*>> vbos)
+void Vao::add_array_buffer(std::vector<ArrayBuffer*> vbos)
 {
     for (auto vbo : vbos)
     {
-        this->add_array_buffer(vbo.first, vbo.second);
+        this->add_array_buffer(vbo);
     }
 }
 
@@ -51,7 +52,7 @@ GLuint& Vao::handle()
     return handle_;
 }
 
-std::map<int, ArrayBuffer*>& Vao::array_buffers()
+std::vector<ArrayBuffer*>& Vao::array_buffers()
 {
     return array_buffers_;
 }

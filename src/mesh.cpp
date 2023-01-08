@@ -40,16 +40,16 @@ void Mesh::render()
 {
     vao_->bind();
 
-    for (auto pair : vao_->array_buffers())
+    for (auto arrbuf : vao_->array_buffers())
     {
         vao_->bind();
-        glEnableVertexAttribArray(pair.first);
+        glEnableVertexAttribArray(arrbuf->index());
         glVertexAttribPointer(
-            pair.first,
-            pair.second->size(),
-            pair.second->type(),
-            pair.second->normalized(),
-            pair.second->stride(),
+            arrbuf->index(),
+            arrbuf->size(),
+            arrbuf->type(),
+            arrbuf->normalized(),
+            arrbuf->stride(),
             (void*)0
         );
     }

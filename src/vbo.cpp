@@ -70,6 +70,12 @@ void ArrayBuffer::unbind()
     Vbo::unbind(GL_ARRAY_BUFFER);
 }
 
+ArrayBuffer& ArrayBuffer::set_index(int index)
+{
+    index_ = index;
+    return *this;
+}
+
 ArrayBuffer& ArrayBuffer::set_size(size_t size)
 {
     size_ = size;
@@ -114,4 +120,7 @@ size_t& ArrayBuffer::stride()
     return stride_;
 }
 
-
+int& ArrayBuffer::index()
+{
+    return index_;
+}
