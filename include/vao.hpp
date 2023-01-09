@@ -3,9 +3,8 @@
 #include <cstddef>
 #include <map>
 #include <utility>
-#include <vbo.hpp>
-#include <GL/gl.h>
 #include <vector>
+#include "vbo.hpp"
 
 class Vao {
 private:

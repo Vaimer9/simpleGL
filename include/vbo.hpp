@@ -1,6 +1,6 @@
 #pragma once
 #include <GL/glew.h>
-#include <shader.hpp>
+#include "shader.hpp"
 
 class Vbo
 {

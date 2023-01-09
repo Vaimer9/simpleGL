@@ -1,6 +1,6 @@
 #pragma once
 
-#include <mesh.hpp>
+#include "mesh.hpp"
 
 class Rectangle : public Mesh
 {
