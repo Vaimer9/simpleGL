@@ -39,6 +39,7 @@ int& Mesh::vertices()
 void Mesh::render()
 {
     vao_->bind();
+    shader_->use();
 
     for (auto arrbuf : vao_->array_buffers())
     {

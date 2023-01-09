@@ -5,8 +5,14 @@
 #include <shader.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-Shader::Shader(std::string vert, std::string frag):
-    vertex_(vert), fragment_(frag) {};
+Shader::Shader(std::string vert, std::string frag, bool load):
+    vertex_(vert), fragment_(frag)
+{
+    if (load)
+    {
+        this->load_shaders();
+    }
+};
 
 Shader::~Shader()
 {

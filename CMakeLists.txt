@@ -5,13 +5,14 @@ project(main)
 set(CMAKE_CXX_STANDARD 20)
 
 set(SOURCES 
-    src/mesh.cpp
     src/main.cpp
     src/shader.cpp
     src/utils.cpp
     src/window.cpp
     src/vao.cpp
     src/vbo.cpp
+    src/shapes.cpp
+    src/mesh.cpp
 )
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

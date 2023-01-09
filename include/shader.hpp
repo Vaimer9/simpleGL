@@ -14,7 +14,7 @@ private:
     GLuint shader_id_;
 
 public:
-    Shader(std::string vert, std::string frag);
+    Shader(std::string vert, std::string frag, bool load = false);
     ~Shader();
     
     void load_shaders();

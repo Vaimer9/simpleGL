@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <vao.hpp>
 #include <vector>
+#include <iostream>
 
 Vao::Vao(size_t size)
 {
@@ -11,7 +12,8 @@ Vao::Vao(size_t size)
 
 Vao::~Vao()
 {
-    glDeleteVertexArrays(size_, &handle_);
+    // Todo: Delete this stuff
+    /* glDeleteVertexArrays(size_, &handle_); */
 }
 
 void Vao::bind()
