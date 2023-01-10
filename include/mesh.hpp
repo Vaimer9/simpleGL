@@ -5,8 +5,8 @@
 
 class Mesh {
 private:
-    Vao* vao_;
-    Shader* shader_;
+    Vao* vao_ = NULL;
+    Shader* shader_ = NULL;
     int vertices_;
 public:
 

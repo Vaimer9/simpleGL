@@ -38,7 +38,17 @@ int& Mesh::vertices()
 
 void Mesh::render()
 {
-    vao_->bind();
+    if (!vao_)
+    {
+        std::cout << "ERR: Add VAO to mesh" << std::endl;
+        return;
+    }
+
+    if (!shader_)
+    {
+        shader_ = new Shader(true);
+    }
+
     shader_->use();
 
     for (auto arrbuf : vao_->array_buffers())

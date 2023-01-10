@@ -5,14 +5,37 @@
 #include <shader.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+std::string default_vertex =
+"#version 330 core\n"
+"layout(location = 0) in vec3 v_Org;\n"
+"void main() {\n"
+"   gl_Position = vec4(v_Org, 1);\n"
+"}";
+
+std::string default_fragment =
+"#version 330 core\n"
+"out vec4 color;\n"
+"void main() {\n"
+"   color = vec4(1, 1, 1, 1);\n"
+"}";
+
 Shader::Shader(std::string vert, std::string frag, bool load):
-    vertex_(vert), fragment_(frag)
+    vertex_path_(vert), fragment_path_(frag)
 {
     if (load)
     {
         this->load_shaders();
     }
 };
+
+Shader::Shader(bool load)
+{
+    default_ = true;
+    if (load)
+    {
+        this->load_shaders();
+    }
+}
 
 Shader::~Shader()
 {
@@ -24,41 +47,52 @@ GLuint& Shader::id()
     return shader_id_;
 }
 
+void Shader::use_default_shaders()
+{
+    default_ = true;
+}
+
 void Shader::load_shaders()
 {
     // Create the shaders
 	GLuint VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
 	GLuint FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
-	// Read the Vertex Shader code from the file
 	std::string VertexShaderCode;
-	std::ifstream VertexShaderStream(vertex_, std::ios::in);
-	if (VertexShaderStream.is_open()) {
-		std::stringstream sstr;
-		sstr << VertexShaderStream.rdbuf();
-		VertexShaderCode = sstr.str();
-		VertexShaderStream.close();
-	} else {
-        std::cout << "Couldn't open " << vertex_ << "Are you in the right directory?" << std::endl;
-		getchar();
-		return;
-	}
-
-	// Read the Fragment Shader code from the file
 	std::string FragmentShaderCode;
-	std::ifstream FragmentShaderStream(fragment_, std::ios::in);
-	if (FragmentShaderStream.is_open()) {
-		std::stringstream sstr;
-		sstr << FragmentShaderStream.rdbuf();
-		FragmentShaderCode = sstr.str();
-		FragmentShaderStream.close();
-	}
+    
+    if (default_)
+    {
+        VertexShaderCode = default_vertex;
+        FragmentShaderCode = default_fragment;
+    }
+    else
+    {
+        std::ifstream VertexShaderStream(vertex_path_, std::ios::in);
+        if (VertexShaderStream.is_open()) {
+            std::stringstream sstr;
+            sstr << VertexShaderStream.rdbuf();
+            VertexShaderCode = sstr.str();
+            VertexShaderStream.close();
+        } else {
+            std::cout << "Couldn't open " << vertex_path_ << "Are you in the right directory?" << std::endl;
+            getchar();
+            return;
+        }
+
+        std::ifstream FragmentShaderStream(fragment_path_, std::ios::in);
+        if (FragmentShaderStream.is_open()) {
+            std::stringstream sstr;
+            sstr << FragmentShaderStream.rdbuf();
+            FragmentShaderCode = sstr.str();
+            FragmentShaderStream.close();
+        }
+    }
 
 	GLint Result = GL_FALSE;
 	int InfoLogLength;
 
 	// Compile Vertex Shader
-    std::cout << "Compiling shader" << vertex_ << std::endl;
 	char const* VertexSourcePointer = VertexShaderCode.c_str();
 	glShaderSource(VertexShaderID, 1, &VertexSourcePointer , NULL);
 	glCompileShader(VertexShaderID);
@@ -73,7 +107,6 @@ void Shader::load_shaders()
 	}
 
 	// Compile Fragment Shader
-    std::cout << "Compiling shader" << fragment_ << std::endl;
 	char const * FragmentSourcePointer = FragmentShaderCode.c_str();
 	glShaderSource(FragmentShaderID, 1, &FragmentSourcePointer , NULL);
 	glCompileShader(FragmentShaderID);
@@ -88,7 +121,6 @@ void Shader::load_shaders()
 	}
 
 	// Link the program
-    std::cout << "Linking Program" << std::endl;
 	shader_id_ = glCreateProgram();
 	glAttachShader(shader_id_, VertexShaderID);
 	glAttachShader(shader_id_, FragmentShaderID);

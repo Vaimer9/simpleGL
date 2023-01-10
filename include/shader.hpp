@@ -9,14 +9,17 @@
 
 class Shader {
 private:
-    std::string vertex_;
-    std::string fragment_;
+    std::string vertex_path_;
+    std::string fragment_path_;
     GLuint shader_id_;
+    bool default_ = false;
 
 public:
+    Shader(bool load = false);
     Shader(std::string vert, std::string frag, bool load = false);
     ~Shader();
     
+    void use_default_shaders();
     void load_shaders();
     Shader& use();
 
