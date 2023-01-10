@@ -5,9 +5,6 @@ Yet another opengl wrapper in C++
 ```c++
 #include <graphic.hpp>
 
-const float vel = 0.005f;
-float x, y = 0;
-
 int main()
 {
     Utilities::glfw_init();
