@@ -12,8 +12,15 @@ Vao::Vao(size_t size)
 
 Vao::~Vao()
 {
-    // Todo: Delete this stuff
-    /* glDeleteVertexArrays(size_, &handle_); */
+    for (auto arrbuf : array_buffers_)
+    {
+        if (arrbuf)
+        {
+            delete arrbuf;
+        }
+    }
+
+    glDeleteVertexArrays(size_, &handle_);
 }
 
 void Vao::bind()
@@ -26,7 +33,6 @@ void Vao::add_array_buffer(ArrayBuffer* vbo)
     this->bind();
     vbo->bind();
     array_buffers_.push_back(vbo);
-
 }
 
 void Vao::add_array_buffer(std::vector<ArrayBuffer*> vbos)
@@ -37,16 +43,16 @@ void Vao::add_array_buffer(std::vector<ArrayBuffer*> vbos)
     }
 }
 
-void Vao::add_element_buffer(Vbo *vbo)
+void Vao::set_element_buffer(Vbo *vbo)
 {
+    element_buffer_ = vbo;
     this->bind();
     vbo->bind();
-    elements_ = true;
 }
 
-bool& Vao::elements()
+bool Vao::elements()
 {
-    return elements_;
+    return (element_buffer_ != nullptr);
 }
 
 GLuint& Vao::handle()

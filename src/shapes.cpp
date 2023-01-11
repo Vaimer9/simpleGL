@@ -38,7 +38,7 @@ Rectangle::Rectangle(float x, float y, float wx, float hx)
     Vao* vao = new Vao(1);
     vao->bind();
     vao->add_array_buffer(vertBuff);
-    vao->add_element_buffer(elemBuff);
+    vao->set_element_buffer(elemBuff);
 
     this->set_vertices(6);
     this->set_vao(vao);

@@ -12,6 +12,7 @@ int main()
     window.set_exit_key(GLFW_KEY_Q);
 
     Rectangle rectangle(0, 0, 0.5, 0.5);
+    rectangle.set_shader(NULL);
 
     window.loop([&] {
         rectangle.render();

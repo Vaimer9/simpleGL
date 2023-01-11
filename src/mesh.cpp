@@ -11,24 +11,45 @@ Mesh::Mesh(Vao* vao, Shader* shader)
 {
     vao_ = vao;
     shader_ = shader;
+    if (!shader_)
+    {
+        shader_ = new Shader(true);
+    }
 }
 
-Mesh* Mesh::set_vao(Vao* vao)
+Mesh::~Mesh()
+{
+    if (vao_)
+    {
+        delete vao_;
+    }
+
+    if (shader_)
+    {
+        delete shader_;
+    }
+}
+
+Mesh& Mesh::set_vao(Vao* vao)
 {
     vao_ = vao;
-    return this;
+    return *this;
 }
 
-Mesh* Mesh::set_shader(Shader* shader)
+Mesh& Mesh::set_shader(Shader* shader)
 {
     shader_ = shader;
-    return this;
+    if (!shader_)
+    {
+        shader_ = new Shader(true);
+    }
+    return *this;
 }
 
-Mesh* Mesh::set_vertices(int vertices)
+Mesh& Mesh::set_vertices(int vertices)
 {
     vertices_ = vertices; 
-    return this;
+    return *this;
 }
 
 int& Mesh::vertices()
@@ -42,11 +63,6 @@ void Mesh::render()
     {
         std::cout << "ERR: Add VAO to mesh" << std::endl;
         return;
-    }
-
-    if (!shader_)
-    {
-        shader_ = new Shader(true);
     }
 
     shader_->use();

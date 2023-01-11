@@ -20,8 +20,7 @@ Vbo::Vbo(GLenum target, void* data, size_t data_size, GLenum usage)
 
 Vbo::~Vbo()
 {
-    // Todo: Delete this stuff
-    /* glDeleteBuffers(1, &this->handle_); */
+    glDeleteBuffers(1, &this->handle_);
 }
 
 GLenum& Vbo::target()
