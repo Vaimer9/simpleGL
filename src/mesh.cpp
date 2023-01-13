@@ -52,6 +52,12 @@ Mesh& Mesh::set_vertices(int vertices)
     return *this;
 }
 
+Mesh& Mesh::set_draw_mode(GLenum mode)
+{
+    draw_mode_ = mode;
+    return *this;
+}
+
 int& Mesh::vertices()
 {
     return vertices_;
@@ -83,9 +89,9 @@ void Mesh::render()
 
     if (vao_->elements())
     {
-        glDrawElements(GL_TRIANGLES, this->vertices(), GL_UNSIGNED_INT, nullptr);
+        glDrawElements(draw_mode_, this->vertices(), GL_UNSIGNED_INT, nullptr);
     } else
     {
-        glDrawArrays(GL_TRIANGLES, 0, this->vertices());
+        glDrawArrays(draw_mode_, 0, this->vertices());
     }
 }
