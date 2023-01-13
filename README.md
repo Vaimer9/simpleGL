@@ -38,6 +38,7 @@ You can install these with your OS' respective package managers easily.
 Run the following commands -
 ```
 git clone https://github.com/vaimer9/graphic
+cd graphic
 ./install.sh
 ```
 The install script simply builds the dynamic library and copies the headers to their respective
