@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <glm/fwd.hpp>
 #include <stdlib.h>
 #include <string>
 #include <GLFW/glfw3.h>
@@ -20,6 +21,8 @@ public:
     void init();
     void swap_buffers();
     void set_exit_key(int key);
+    glm::vec2 get_mouse_location();
+    void set_mouse_location(glm::vec2 location);
 
     static void poll_events() {
         glfwPollEvents();

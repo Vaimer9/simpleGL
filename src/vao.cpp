@@ -50,7 +50,6 @@ void Vao::set_element_buffer(Vbo *vbo)
     this->bind();
     vbo->bind();
     this->unbind();
-
 }
 
 bool Vao::elements()

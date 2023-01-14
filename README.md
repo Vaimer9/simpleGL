@@ -8,11 +8,10 @@ Yet another opengl wrapper in C++
 int main()
 {
     Utilities::glfw_init();
-    Window window("Graphic Showcase", 800, 600, true);
+    Window window("Graphic Showcase", 800, 800, true);
     window.set_exit_key(GLFW_KEY_Q);
 
     Rectangle rectangle(0, 0, 0.5, 0.5);
-    rectangle.set_shader(NULL);
 
     window.loop([&] {
         rectangle.render();
@@ -50,3 +49,6 @@ TODO
 The above example may feel a bit too opaque and simple but this project's aim is to provide multiple levels of abstraction so that the user is free to chose the amount of control they want. You can always mix and match. There are several abstract classes for you to implement and create your own parts. This approach may feel bloated and thats true. The DLL or .so file for this project may be bloated but the application built won't be.
 
 Another thing is transparency with the state. If there's going to be a triangle on the screen you need to create some variables for it, the API is not designed to have a single function call for drawing/rendering. There will be a setup phase and a rendering/update phase in your program and all future API updates will follow this code style. If you do not preffer this an alternative would be [raylib](https://github.com/raysan5/raylib).
+
+### Track Progress
+You can track the progress of the project on this [trello board](https://trello.com/b/dqzaBc15/graphic#). 
