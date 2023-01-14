@@ -9,7 +9,7 @@ int main()
 {
     sgl::init();
 
-    sgl::Window window("Graphic Showcase", 800, 800, true);
+    sgl::Window window("SimpleGL Window", 800, 800, true);
     window.set_exit_key(GLFW_KEY_Q);
 
     sgl::Rectangle rectangle(0, 0, 0.5, 0.5);
@@ -37,13 +37,13 @@ You can install these with your OS' respective package managers easily.
 #### Linux
 Run the following commands -
 ```
-git clone https://github.com/vaimer9/graphic
-cd graphic
+git clone https://github.com/vaimer9/simpleGL
+cd simpleGL
 ./install.sh
 ```
 The install script simply builds the dynamic library and copies the headers to their respective
 targets.
-#### Window
+#### Windows
 TODO
 
 ## Project's Aim
