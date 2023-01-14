@@ -2,7 +2,9 @@
 
 using namespace Utilities;
 
-void Utilities::glfw_init()
+namespace Utilities {
+
+void glfw_init()
 {
     glfwInit();
     glfwWindowHint(GLFW_SAMPLES, 4);
@@ -11,7 +13,9 @@ void Utilities::glfw_init()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 }
 
-void Utilities::framebuffer_size_callback(GLFWwindow* window, int width, int height)
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
+}
+
 }

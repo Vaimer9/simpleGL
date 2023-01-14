@@ -76,6 +76,7 @@ void Mesh::render()
     for (auto arrbuf : vao_->array_buffers())
     {
         vao_->bind();
+        arrbuf->bind();
         glEnableVertexAttribArray(arrbuf->index());
         glVertexAttribPointer(
             arrbuf->index(),
@@ -85,6 +86,7 @@ void Mesh::render()
             arrbuf->stride(),
             (void*)0
         );
+        arrbuf->unbind();
     }
 
     if (vao_->elements())
@@ -94,4 +96,5 @@ void Mesh::render()
     {
         glDrawArrays(draw_mode_, 0, this->vertices());
     }
+    vao_->unbind();
 }

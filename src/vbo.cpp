@@ -63,6 +63,7 @@ ArrayBuffer::ArrayBuffer(void* data, size_t data_size, GLenum usage)
     glGenBuffers(1, &handle_);
     this->bind();
     glBufferData(GL_ARRAY_BUFFER, data_size, data, usage);
+    this->unbind();
 }
 
 void ArrayBuffer::unbind()

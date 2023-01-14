@@ -33,6 +33,7 @@ void Vao::add_array_buffer(ArrayBuffer* vbo)
     this->bind();
     vbo->bind();
     array_buffers_.push_back(vbo);
+    this->unbind();
 }
 
 void Vao::add_array_buffer(std::vector<ArrayBuffer*> vbos)
@@ -48,6 +49,8 @@ void Vao::set_element_buffer(Vbo *vbo)
     element_buffer_ = vbo;
     this->bind();
     vbo->bind();
+    this->unbind();
+
 }
 
 bool Vao::elements()
