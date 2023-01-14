@@ -1,6 +1,8 @@
 #include <vbo.hpp>
 #include <iostream>
 
+namespace sgl {
+
 Vbo::Vbo(GLenum target)
 {
     target_ = target;
@@ -124,4 +126,6 @@ size_t& ArrayBuffer::stride()
 int& ArrayBuffer::index()
 {
     return index_;
+}
+
 }

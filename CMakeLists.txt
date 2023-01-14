@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(main)
+project(simpleGL)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -16,11 +16,11 @@ set(SOURCES
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include_directories(include)
-add_library(graphic SHARED ${SOURCES})
+add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
 find_package (OpenGL REQUIRED)
-target_link_libraries(graphic OpenGL::GL)
+target_link_libraries(${PROJECT_NAME} OpenGL::GL)
 find_package (GLEW REQUIRED)
-target_link_libraries(graphic GLEW::GLEW)
+target_link_libraries(${PROJECT_NAME} GLEW::GLEW)
 find_package (glfw3 REQUIRED)
-target_link_libraries(graphic glfw)
+target_link_libraries(${PROJECT_NAME} glfw)

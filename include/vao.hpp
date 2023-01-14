@@ -6,6 +6,8 @@
 #include <vector>
 #include "vbo.hpp"
 
+namespace sgl {
+
 class Vao {
 private:
     GLuint handle_;
@@ -29,3 +31,5 @@ public:
         glBindVertexArray(0);
     }
 };
+
+}

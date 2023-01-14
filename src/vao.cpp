@@ -4,6 +4,8 @@
 #include <vector>
 #include <iostream>
 
+namespace sgl {
+
 Vao::Vao(size_t size)
 {
     size_ = size;
@@ -65,4 +67,6 @@ GLuint& Vao::handle()
 std::vector<ArrayBuffer*>& Vao::array_buffers()
 {
     return array_buffers_;
+}
+
 }

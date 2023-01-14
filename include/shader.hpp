@@ -7,6 +7,9 @@
 #include <vector>
 #include <map>
 
+
+namespace sgl {
+
 class Shader {
 private:
     std::string vertex_path_;
@@ -37,3 +40,5 @@ public:
 
     GLuint& id();
 };
+
+}

@@ -3,6 +3,8 @@
 #include <iostream>
 #include <shapes.hpp>
 
+namespace sgl {
+
 #define T_PI(__TYPE__) (2 * glm::pi<__TYPE__>())
 
 Rectangle::Rectangle(glm::vec2 center, float wx, float hx)
@@ -104,4 +106,6 @@ Circle::Circle(glm::vec2 center, float radius, int precision)
     this->set_draw_mode(GL_TRIANGLE_FAN);
     this->set_vao(vao);
     this->set_shader(NULL);
+}
+
 }

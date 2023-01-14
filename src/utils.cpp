@@ -1,10 +1,8 @@
 #include <utils.hpp>
 
-using namespace Utilities;
+namespace sgl {
 
-namespace Utilities {
-
-void glfw_init()
+void init()
 {
     glfwInit();
     glfwWindowHint(GLFW_SAMPLES, 4);

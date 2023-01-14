@@ -2,6 +2,8 @@
 #include <utility>
 #include <iostream>
 
+namespace sgl {
+
 Mesh::Mesh(Vao* vao)
 {
     vao_ = vao;
@@ -97,4 +99,6 @@ void Mesh::render()
         glDrawArrays(draw_mode_, 0, this->vertices());
     }
     vao_->unbind();
+}
+
 }

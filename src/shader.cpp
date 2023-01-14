@@ -5,6 +5,8 @@
 #include <shader.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+namespace sgl {
+
 std::string default_vertex =
 "#version 330 core\n"
 "layout(location = 0) in vec3 v_Org;\n"
@@ -194,4 +196,6 @@ Shader& Shader::set_mat4(std::string name, glm::mat4& val)
 {
     glUniformMatrix4fv(glGetUniformLocation(this->id(), name.c_str()), 1, false, glm::value_ptr(val));
     return *this;
+}
+
 }

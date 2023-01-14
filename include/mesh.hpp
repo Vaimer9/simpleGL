@@ -3,6 +3,8 @@
 #include "shader.hpp"
 #include "vao.hpp"
 
+namespace sgl {
+
 class Mesh
 {
     Vao* vao_ = NULL;
@@ -24,3 +26,5 @@ public:
     virtual void render();
     int& vertices();
 };
+
+}

@@ -9,8 +9,10 @@
 #include <vector>
 #include <functional>
 
-namespace Utilities {
-    GLuint get_projection_view_matrix_id();
-    void glfw_init();
-    void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-};
+namespace sgl {
+
+GLuint get_projection_view_matrix_id();
+void init();
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
+}

@@ -4,6 +4,8 @@
 #include <glm/vec2.hpp>
 #include <glm/fwd.hpp>
 
+namespace sgl {
+
 class Rectangle : public Mesh
 {
 public:
@@ -21,3 +23,5 @@ class Circle : public Mesh
 public:
     Circle(glm::vec2 center, float radius, int precision = 160);
 };
+
+}

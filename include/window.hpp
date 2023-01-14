@@ -6,6 +6,8 @@
 #include <string>
 #include <GLFW/glfw3.h>
 
+namespace sgl {
+
 class Window {
 private:
     GLFWwindow* handle_; 
@@ -30,3 +32,5 @@ public:
 
     ~Window();
 };
+
+}

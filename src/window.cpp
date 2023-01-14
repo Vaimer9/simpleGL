@@ -2,6 +2,8 @@
 #include <window.hpp>
 #include <glm/vec2.hpp>
 
+namespace sgl {
+
 Window::Window(std::string title, int w, int h, bool init)
 {
     title_ = title;
@@ -78,7 +80,7 @@ void Window::init()
     glfwSwapInterval(1);
 
     glViewport(0, 0, width_, height_);
-    glfwSetFramebufferSizeCallback(handle_, Utilities::framebuffer_size_callback);
+    glfwSetFramebufferSizeCallback(handle_, framebuffer_size_callback);
     glfwSwapInterval(1);
     if (glewInit() != GLEW_OK)
     {
@@ -92,3 +94,4 @@ void Window::swap_buffers()
     glfwSwapBuffers(handle_);
 }
 
+}

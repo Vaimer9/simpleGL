@@ -2,6 +2,8 @@
 #include <GL/glew.h>
 #include "shader.hpp"
 
+namespace sgl {
+
 class Vbo
 {
 public:
@@ -52,3 +54,5 @@ public:
 
     virtual void unbind() override;
 };
+
+}
