@@ -1,17 +1,18 @@
-# Graphic
+# simpleGL
 Yet another opengl wrapper in C++
 
 #### Example
 ```c++
-#include <graphic.hpp>
+#include <simpleGL.hpp>
 
 int main()
 {
-    Utilities::glfw_init();
-    Window window("Graphic Showcase", 800, 800, true);
+    sgl::init();
+
+    sgl::Window window("Graphic Showcase", 800, 800, true);
     window.set_exit_key(GLFW_KEY_Q);
 
-    Rectangle rectangle(0, 0, 0.5, 0.5);
+    sgl::Rectangle rectangle(0, 0, 0.5, 0.5);
 
     window.loop([&] {
         rectangle.render();
@@ -46,7 +47,7 @@ targets.
 TODO
 
 ## Project's Aim
-The above example may feel a bit too opaque and simple but this project's aim is to provide multiple levels of abstraction so that the user is free to chose the amount of control they want. You can always mix and match. There are several abstract classes for you to implement and create your own parts. This approach may feel bloated and thats true. The DLL or .so file for this project may be bloated but the application built won't be.
+The above example may feel a bit too opaque but this project's aim is to provide multiple levels of abstraction so that the user is free to chose the amount of control they want. You can always mix and match. There are several abstract classes for you to implement and create your own parts. This approach may feel bloated and thats true. The DLL or .so file for this project may be bloated but the application built won't be.
 
 Another thing is transparency with the state. If there's going to be a triangle on the screen you need to create some variables for it, the API is not designed to have a single function call for drawing/rendering. There will be a setup phase and a rendering/update phase in your program and all future API updates will follow this code style. If you do not preffer this an alternative would be [raylib](https://github.com/raysan5/raylib).
 
