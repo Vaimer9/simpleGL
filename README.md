@@ -7,14 +7,23 @@ Yet another opengl wrapper in C++
 
 int main()
 {
+    // Initialize sgl
+    // This initializes glew and glfw and sets all the defaults
     sgl::init();
 
+    // Create an 800x800 window with the name "SimpleGL Window"
+    // The `true` here starts the window 
+    // otherwise would have to explicitly initialize window
     sgl::Window window("SimpleGL Window", 800, 800, true);
-    window.set_exit_key(GLFW_KEY_Q);
+    window.set_exit_key(GLFW_KEY_Q); // Self explanatory
 
+    // Create a renderable rectangle with dimensions 0.5x0.5
+    // Give it an initial position of (0, 0)
     sgl::Rectangle rectangle(0, 0, 0.5, 0.5);
 
+    // Start the main loop which runs the given lambda every tick 
     window.loop([&] {
+        // Render the rectangle every tick
         rectangle.render();
     });
 
