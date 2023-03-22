@@ -97,7 +97,7 @@ void Shader::load_shaders()
 
 	// Compile Vertex Shader
 	char const* VertexSourcePointer = VertexShaderCode.c_str();
-	glShaderSource(VertexShaderID, 1, &VertexSourcePointer , NULL);
+	glShaderSource(VertexShaderID, 1, &VertexSourcePointer , nullptr);
 	glCompileShader(VertexShaderID);
 
 	// Check Vertex Shader
@@ -105,13 +105,13 @@ void Shader::load_shaders()
 	glGetShaderiv(VertexShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
 	if ( InfoLogLength > 0 ){
 		std::vector<char> VertexShaderErrorMessage(InfoLogLength+1);
-		glGetShaderInfoLog(VertexShaderID, InfoLogLength, NULL, &VertexShaderErrorMessage[0]);
+		glGetShaderInfoLog(VertexShaderID, InfoLogLength, nullptr, &VertexShaderErrorMessage[0]);
         std::cout << &VertexShaderErrorMessage[0] << std::endl;
 	}
 
 	// Compile Fragment Shader
 	char const * FragmentSourcePointer = FragmentShaderCode.c_str();
-	glShaderSource(FragmentShaderID, 1, &FragmentSourcePointer , NULL);
+	glShaderSource(FragmentShaderID, 1, &FragmentSourcePointer , nullptr);
 	glCompileShader(FragmentShaderID);
 
 	// Check Fragment Shader
@@ -119,7 +119,7 @@ void Shader::load_shaders()
 	glGetShaderiv(FragmentShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
 	if ( InfoLogLength > 0 ) {
 		std::vector<char> FragmentShaderErrorMessage(InfoLogLength+1);
-		glGetShaderInfoLog(FragmentShaderID, InfoLogLength, NULL, &FragmentShaderErrorMessage[0]);
+		glGetShaderInfoLog(FragmentShaderID, InfoLogLength, nullptr, &FragmentShaderErrorMessage[0]);
         std::cout << &FragmentShaderErrorMessage[0] << std::endl;
 	}
 
@@ -134,9 +134,8 @@ void Shader::load_shaders()
 	glGetProgramiv(shader_id_, GL_INFO_LOG_LENGTH, &InfoLogLength);
 	if ( InfoLogLength > 0 ){
 		std::vector<char> ProgramErrorMessage(InfoLogLength+1);
-		glGetProgramInfoLog(shader_id_, InfoLogLength, NULL, &ProgramErrorMessage[0]);
+		glGetProgramInfoLog(shader_id_, InfoLogLength, nullptr, &ProgramErrorMessage[0]);
         std::cout << &ProgramErrorMessage << std::endl;
-        log_error();
 	}
 	
 	glDetachShader(shader_id_, VertexShaderID);

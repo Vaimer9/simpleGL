@@ -6,13 +6,9 @@
 
 namespace sgl {
 
-Window::Window(std::string title, int w, int h, bool init)
+Window::Window(std::string title, int w, int h, bool init):
+    title_(title), width_(w), height_(h), handle_(nullptr)
 {
-    title_ = title;
-    width_ = w;
-    height_ = h;
-    handle_ = NULL;
-
     if (init)
     {
         this->init();

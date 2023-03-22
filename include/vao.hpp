@@ -13,7 +13,7 @@ private:
     GLuint handle_;
     std::vector<ArrayBuffer*> array_buffers_;
     size_t size_;
-    Vbo* element_buffer_ = NULL; 
+    Vbo* element_buffer_ = nullptr; 
 
 public:
     Vao(size_t size);

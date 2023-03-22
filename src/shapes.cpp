@@ -48,7 +48,7 @@ Rectangle::Rectangle(glm::vec2 center, float wx, float hx)
 
     this->set_vertices(6);
     this->set_vao(vao);
-    this->set_shader(NULL);
+    this->set_shader(nullptr);
 }
 
 Triangle::Triangle(glm::vec2 first, glm::vec2 second, glm::vec2 third)
@@ -75,7 +75,7 @@ Triangle::Triangle(glm::vec2 first, glm::vec2 second, glm::vec2 third)
 
     this->set_vertices(3);
     this->set_vao(vao);
-    this->set_shader(NULL);
+    this->set_shader(nullptr);
 }
 
 Circle::Circle(glm::vec2 center, float radius, int precision)
@@ -105,7 +105,7 @@ Circle::Circle(glm::vec2 center, float radius, int precision)
     this->set_vertices(vertices.size() / 3);
     this->set_draw_mode(GL_TRIANGLE_FAN);
     this->set_vao(vao);
-    this->set_shader(NULL);
+    this->set_shader(nullptr);
 }
 
 }

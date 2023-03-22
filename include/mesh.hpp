@@ -7,8 +7,8 @@ namespace sgl {
 
 class Mesh
 {
-    Vao* vao_ = NULL;
-    Shader* shader_ = NULL;
+    Vao* vao_ = nullptr;
+    Shader* shader_ = nullptr;
     GLenum draw_mode_ = GL_TRIANGLES;
     int vertices_;
 public:
