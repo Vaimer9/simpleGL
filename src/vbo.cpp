@@ -1,5 +1,4 @@
 #include <vbo.hpp>
-#include <iostream>
 
 namespace sgl {
 

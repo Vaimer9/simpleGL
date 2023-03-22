@@ -1,3 +1,4 @@
+#include "logger.hpp"
 #include <mesh.hpp>
 #include <utility>
 #include <iostream>
@@ -15,21 +16,15 @@ Mesh::Mesh(Vao* vao, Shader* shader)
     shader_ = shader;
     if (!shader_)
     {
+        log_error("Provided nullptr as shader. Using default shader.");
         shader_ = new Shader(true);
     }
 }
 
 Mesh::~Mesh()
 {
-    if (vao_)
-    {
-        delete vao_;
-    }
-
-    if (shader_)
-    {
-        delete shader_;
-    }
+    if (vao_) delete vao_;
+    if (shader_) delete shader_;
 }
 
 Mesh& Mesh::set_vao(Vao* vao)
@@ -43,6 +38,7 @@ Mesh& Mesh::set_shader(Shader* shader)
     shader_ = shader;
     if (!shader_)
     {
+        log_error("Provided nullptr as shader. Using default shader.");
         shader_ = new Shader(true);
     }
     return *this;
@@ -69,7 +65,7 @@ void Mesh::render()
 {
     if (!vao_)
     {
-        std::cout << "ERR: Add VAO to mesh" << std::endl;
+        log_error("Missing VAO in mesh during render call");
         return;
     }
 

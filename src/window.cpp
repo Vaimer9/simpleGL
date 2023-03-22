@@ -1,6 +1,8 @@
+#include "logger.hpp"
 #include <utils.hpp>
 #include <window.hpp>
 #include <glm/vec2.hpp>
+#include <string>
 
 namespace sgl {
 
@@ -19,6 +21,7 @@ Window::Window(std::string title, int w, int h, bool init)
 
 void Window::loop(std::function<void()> func)
 {
+    log_info("Starting main loop");
     while (!this->get_key(exit_key_) && !this->should_close())
     {
         glClear(GL_COLOR_BUFFER_BIT);
@@ -47,7 +50,7 @@ GLFWwindow* Window::handle()
 
 Window::~Window()
 {
-    glfwDestroyWindow(handle_);    
+    glfwDestroyWindow(handle_);
 }
 
 bool Window::get_key(int key)
@@ -69,12 +72,13 @@ void Window::set_mouse_location(glm::vec2 loc)
 
 void Window::init()
 {
+    log_info("Initializing Window of " + std::to_string(width_) + "x" + std::to_string(height_));
     handle_ = glfwCreateWindow(width_, height_, title_.c_str(), nullptr, nullptr);
     if (!handle_)
     {
-        std::cout << "Failed to create GLFW window" << std::endl;
+        log_error("Failed to create GLFW window");
         glfwTerminate();
-        exit(-1);
+        exit_sgl();
     }
     glfwMakeContextCurrent(handle_);
     glfwSwapInterval(1);
@@ -84,8 +88,8 @@ void Window::init()
     glfwSwapInterval(1);
     if (glewInit() != GLEW_OK)
     {
-        std::cout << "Could not initialize Glew!" << std::endl;
-        exit(-1);
+        log_error("Could not initialize GLew");
+        exit_sgl();
     }
 }
 

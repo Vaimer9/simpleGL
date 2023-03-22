@@ -1,3 +1,4 @@
+#include "logger.hpp"
 #include <fstream>
 #include <sstream>
 #include <vector>
@@ -77,7 +78,7 @@ void Shader::load_shaders()
             VertexShaderCode = sstr.str();
             VertexShaderStream.close();
         } else {
-            std::cout << "Couldn't open " << vertex_path_ << "Are you in the right directory?" << std::endl;
+            log_error("Could not open " + vertex_path_);
             getchar();
             return;
         }
@@ -135,6 +136,7 @@ void Shader::load_shaders()
 		std::vector<char> ProgramErrorMessage(InfoLogLength+1);
 		glGetProgramInfoLog(shader_id_, InfoLogLength, NULL, &ProgramErrorMessage[0]);
         std::cout << &ProgramErrorMessage << std::endl;
+        log_error();
 	}
 	
 	glDetachShader(shader_id_, VertexShaderID);

@@ -7,3 +7,4 @@
 #include "simpleGL/vao.hpp"
 #include "simpleGL/vbo.hpp"
 #include "simpleGL/window.hpp"
+#include "simpleGL/logger.hpp"

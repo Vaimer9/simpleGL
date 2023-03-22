@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <vao.hpp>
 #include <vector>
-#include <iostream>
 
 namespace sgl {
 

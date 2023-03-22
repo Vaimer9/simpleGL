@@ -12,6 +12,7 @@ set(SOURCES
     src/vbo.cpp
     src/shapes.cpp
     src/mesh.cpp
+    src/logger.cpp
 )
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
