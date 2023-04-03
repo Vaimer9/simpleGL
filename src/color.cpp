@@ -25,17 +25,20 @@ std::tuple<float, float, float> Tint::values()
 
 void Tint::set_r(float value)
 {
-    r_ = std::fmod(value, 256.f);
+    if (value > 255) value = 255;
+    r_ = value;
 }
 
 void Tint::set_g(float value)
 {
-    g_ = std::fmod(value, 255.f);
+    if (value > 255) value = 255;
+    g_ = value;
 }
 
 void Tint::set_b(float value)
 {
-    b_ = std::fmod(value, 255.f);
+    if (value > 255) value = 255;
+    b_ = value;
 }
 
 float Tint::get_r()
