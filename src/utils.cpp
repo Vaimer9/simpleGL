@@ -17,7 +17,10 @@ void init()
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
-    log_info("Changed window size to " + std::to_string(width) + "x" + std::to_string(height));
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0.0, (float)width, (float)height, 0.0, -1.0, 1.0);
+    // glMatrixMode(GL_MODELVIEW);
 }
 
 void exit_sgl()

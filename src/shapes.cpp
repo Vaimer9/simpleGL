@@ -7,7 +7,7 @@ namespace sgl {
 
 #define T_PI(__TYPE__) (2 * glm::pi<__TYPE__>())
 
-Rectangle::Rectangle(glm::vec2 center, float wx, float hx)
+Rectangle::Rectangle(glm::vec2 center, float wx, float hx, Tint tint)
 {
     float h = hx / 2;
     float w = wx / 2;
@@ -48,10 +48,12 @@ Rectangle::Rectangle(glm::vec2 center, float wx, float hx)
 
     this->set_vertices(6);
     this->set_vao(vao);
+    this->set_tint(tint); // Make sure this comes after .set_vao(..) because color buffer needs
+                          // a VAO to be added into
     this->set_shader(nullptr);
 }
 
-Triangle::Triangle(glm::vec2 first, glm::vec2 second, glm::vec2 third)
+Triangle::Triangle(glm::vec2 first, glm::vec2 second, glm::vec2 third, Tint tint)
 {
     const float vertices[] = {
         first.x, first.y, 0,
@@ -64,6 +66,7 @@ Triangle::Triangle(glm::vec2 first, glm::vec2 second, glm::vec2 third)
         sizeof(vertices),
         GL_STATIC_DRAW
     );
+
     vertBuff->set_index(0)
         .set_size(3)
         .set_type(GL_FLOAT)
@@ -75,10 +78,11 @@ Triangle::Triangle(glm::vec2 first, glm::vec2 second, glm::vec2 third)
 
     this->set_vertices(3);
     this->set_vao(vao);
+    this->set_tint(tint);
     this->set_shader(nullptr);
 }
 
-Circle::Circle(glm::vec2 center, float radius, int precision)
+Circle::Circle(glm::vec2 center, float radius, int precision, Tint tint)
 {
     std::vector<float> vertices;
     for (double i = 0; i < T_PI(double); i += T_PI(double) / precision) {
@@ -105,6 +109,7 @@ Circle::Circle(glm::vec2 center, float radius, int precision)
     this->set_vertices(vertices.size() / 3);
     this->set_draw_mode(GL_TRIANGLE_FAN);
     this->set_vao(vao);
+    this->set_tint(tint);
     this->set_shader(nullptr);
 }
 

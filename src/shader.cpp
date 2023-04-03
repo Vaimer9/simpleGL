@@ -11,15 +11,19 @@ namespace sgl {
 std::string default_vertex =
 "#version 330 core\n"
 "layout(location = 0) in vec3 v_Org;\n"
+"layout(location = 1) in vec3 c_Org;\n"
+"out vec3 frag_Color;\n"
 "void main() {\n"
 "   gl_Position = vec4(v_Org, 1);\n"
+"   frag_Color = c_Org;\n"
 "}";
 
 std::string default_fragment =
 "#version 330 core\n"
 "out vec4 color;\n"
+"in vec3 frag_Color;\n"
 "void main() {\n"
-"   color = vec4(1, 1, 1, 1);\n"
+"   color = vec4(frag_Color, 1);\n"
 "}";
 
 Shader::Shader(std::string vert, std::string frag, bool load):
@@ -34,10 +38,7 @@ Shader::Shader(std::string vert, std::string frag, bool load):
 Shader::Shader(bool load)
 {
     default_ = true;
-    if (load)
-    {
-        this->load_shaders();
-    }
+    if (load) this->load_shaders();
 }
 
 Shader::~Shader()
@@ -147,6 +148,7 @@ void Shader::load_shaders()
 
 Shader& Shader::use()
 {
+    log_info("Using `" + vertex_path_ + "` and `" + fragment_path_ + "` as shader");
     glUseProgram(shader_id_);
     return *this;
 }

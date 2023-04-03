@@ -9,19 +9,19 @@ namespace sgl {
 class Rectangle : public Mesh
 {
 public:
-    Rectangle(glm::vec2 center, float width, float height);
+    Rectangle(glm::vec2 center, float width, float height, Tint tint = Tint());
 };
 
 class Triangle : public Mesh
 {
 public:
-    Triangle(glm::vec2 first, glm::vec2 second, glm::vec2 third);
+    Triangle(glm::vec2 first, glm::vec2 second, glm::vec2 third, Tint tint = Tint());
 };
 
 class Circle : public Mesh
 {
 public:
-    Circle(glm::vec2 center, float radius, int precision = 160);
+    Circle(glm::vec2 center, float radius, int precision = 160, Tint tint = Tint());
 };
 
 }

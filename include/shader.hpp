@@ -5,8 +5,6 @@
 #include <GL/glew.h>
 #include <string>
 #include <vector>
-#include <map>
-
 
 namespace sgl {
 

@@ -82,6 +82,9 @@ void Window::init()
     glViewport(0, 0, width_, height_);
     glfwSetFramebufferSizeCallback(handle_, framebuffer_size_callback);
     glfwSwapInterval(1);
+
+    // This fits more in sgl::init() but if taken out sgl stops working
+    // Problematic when creating multiple windows 
     if (glewInit() != GLEW_OK)
     {
         log_error("Could not initialize GLew");

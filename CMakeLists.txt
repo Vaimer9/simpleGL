@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 set(SOURCES 
     src/shader.cpp
+    src/color.cpp
     src/utils.cpp
     src/window.cpp
     src/vao.cpp
