@@ -14,6 +14,7 @@ Vbo::Vbo(GLenum target, void* data, size_t data_size, GLenum usage)
     target_ = target;
 
     glGenBuffers(1, &handle_);
+
     this->bind();
     glBufferData(target, data_size, data_, usage);
     this->unbind();

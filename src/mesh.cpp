@@ -1,4 +1,5 @@
 #include "vbo.hpp"
+#include <glm/ext/matrix_transform.hpp>
 #include <logger.hpp>
 #include <mesh.hpp>
 #include <utility>
@@ -113,7 +114,7 @@ void Mesh::render()
         );
         arrbuf->unbind();
     }
-
+    shader_->set_mat4("mvp_matrix_p", transformation_matrix_);
     if (vao_->elements())
     {
         glDrawElements(draw_mode_, this->vertices(), GL_UNSIGNED_INT, nullptr);
@@ -122,6 +123,30 @@ void Mesh::render()
         glDrawArrays(draw_mode_, 0, this->vertices());
     }
     vao_->unbind();
+}
+
+void Mesh::rotate_degrees(float degree)
+{
+    this->rotate_degrees(glm::radians(degree));
+}
+
+void Mesh::rotate_radians(float radians)
+{
+    transformation_matrix_ = glm::rotate(
+        transformation_matrix_,
+        radians,
+        glm::vec3(0, 0, 1)
+    );
+}
+
+void Mesh::scale(glm::vec3 scale_vector)
+{
+    transformation_matrix_ = glm::scale(transformation_matrix_, scale_vector);
+}
+
+void Mesh::translate(glm::vec3 translation_vector)
+{
+    transformation_matrix_ = glm::translate(transformation_matrix_, translation_vector);
 }
 
 }

@@ -12,9 +12,10 @@ std::string default_vertex =
 "#version 330 core\n"
 "layout(location = 0) in vec3 v_Org;\n"
 "layout(location = 1) in vec3 c_Org;\n"
+"uniform mat4 mvp_matrix_p;\n"
 "out vec3 frag_Color;\n"
 "void main() {\n"
-"   gl_Position = vec4(v_Org, 1);\n"
+"   gl_Position = mvp_matrix_p * vec4(v_Org, 1);\n"
 "   frag_Color = c_Org;\n"
 "}";
 

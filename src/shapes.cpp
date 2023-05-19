@@ -29,6 +29,7 @@ Rectangle::Rectangle(glm::vec2 center, float wx, float hx, Tint tint)
         sizeof(vertices),
         GL_STATIC_DRAW
     );
+
     vertBuff->set_index(0)
         .set_size(3)
         .set_type(GL_FLOAT)
