@@ -24,4 +24,10 @@ public:
     Circle(glm::vec2 center, float radius, int precision = 160, Tint tint = Tint());
 };
 
+class Line : public Mesh
+{
+public:
+    Line(glm::vec2 start, glm::vec2 end, Tint tint = Tint());
+};
+
 }

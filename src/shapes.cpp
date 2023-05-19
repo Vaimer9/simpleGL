@@ -114,4 +114,32 @@ Circle::Circle(glm::vec2 center, float radius, int precision, Tint tint)
     this->set_shader(nullptr);
 }
 
+Line::Line(glm::vec2 start, glm::vec2 end, Tint tint)
+{
+    const float vertices[] = {
+        start.x, start.y, 0.f,
+        end.x, end.y, 0.f
+    };
+
+    ArrayBuffer* vertBuff = new ArrayBuffer(
+        (void*)vertices,
+        sizeof(vertices),
+        GL_STATIC_DRAW
+    );
+
+    vertBuff->set_index(0)
+        .set_size(3)
+        .set_type(GL_FLOAT)
+        .set_normalized(GL_FALSE)
+        .set_stride(0);
+
+    Vao* vao = new Vao(1);
+    vao->add_array_buffer(vertBuff);
+
+    this->set_draw_mode(GL_LINES);
+    this->set_vao(vao);
+    this->set_tint(tint);
+    this->set_shader(nullptr);
+}
+
 }
