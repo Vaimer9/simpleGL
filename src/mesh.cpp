@@ -4,9 +4,9 @@
 #include <mesh.hpp>
 #include <utility>
 #include <iostream>
+#include <vector>
 
 namespace sgl {
-
 
 Mesh::Mesh(Vao* vao, Shader* shader, Tint tint = Tint())
 {
@@ -73,6 +73,27 @@ Mesh& Mesh::set_tint(Tint tint)
     return *this; 
 }
 
+void Mesh::set_texture(Texture texture)
+{
+    texture_ = texture; 
+
+    float vertices[] = { 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f };
+
+    ArrayBuffer* textureBuffer = new ArrayBuffer(
+        (void*)vertices,
+        sizeof(vertices),
+        GL_STATIC_DRAW
+    );
+
+    textureBuffer->set_index(2)
+        .set_size(2)
+        .set_type(GL_FLOAT)
+        .set_normalized(GL_FALSE)
+        .set_stride(0);
+
+    vao_->add_array_buffer(textureBuffer);
+}
+
 Mesh& Mesh::set_vertices(int vertices)
 {
     vertices_ = vertices; 
@@ -98,10 +119,9 @@ void Mesh::render()
         return;
     }
 
-
     for (auto arrbuf : vao_->array_buffers())
     {
-        vao_->bind();
+        vao_->bind(); // TODO: PUT THIS BEFORE THE LOOP OMG
         arrbuf->bind();
         glEnableVertexAttribArray(arrbuf->index());
         glVertexAttribPointer(

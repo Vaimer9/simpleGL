@@ -8,12 +8,14 @@
 
 namespace sgl {
 
-std::string default_vertex =
+std::string default_vertex = 
 "#version 330 core\n"
 "layout(location = 0) in vec3 v_Org;\n"
 "layout(location = 1) in vec3 c_Org;\n"
+"layout(location = 2) in vec2 t_Org;\n"
 "uniform mat4 mvp_matrix_p;\n"
 "out vec3 frag_Color;\n"
+"out vec2 frag_Tex;\n"
 "void main() {\n"
 "   gl_Position = mvp_matrix_p * vec4(v_Org, 1);\n"
 "   frag_Color = c_Org;\n"
@@ -23,8 +25,10 @@ std::string default_fragment =
 "#version 330 core\n"
 "out vec4 color;\n"
 "in vec3 frag_Color;\n"
+"in vec2 frag_Tex;\n"
+"uniform sampler2D ourTexture;\n"
 "void main() {\n"
-"   color = vec4(frag_Color, 1);\n"
+"   color = texture(ourTexture, frag_Tex) * vec4(frag_Color, 1);\n"
 "}";
 
 Shader::Shader(std::string vert, std::string frag, bool load):

@@ -17,8 +17,8 @@ public:
     ~Vbo();
     
     GLenum& target();
-    void gen_buffers();
-    void bind();
+    virtual void gen_buffers();
+    virtual void bind();
     virtual void unbind();
     void set_data(GLenum, void* data, size_t data_size, GLenum usage);
     void*& data();
@@ -38,6 +38,7 @@ class ArrayBuffer : public Vbo
     size_t stride_;
 
 public:
+    ArrayBuffer() {};
     ArrayBuffer(void* data, size_t data_size, GLenum usage);
 
     ArrayBuffer& set_index(int index);
@@ -54,5 +55,7 @@ public:
 
     virtual void unbind() override;
 };
+
+// There is also TextureBuffer in texture.cpp
 
 }

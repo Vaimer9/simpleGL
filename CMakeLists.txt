@@ -14,6 +14,7 @@ set(SOURCES
     src/shapes.cpp
     src/mesh.cpp
     src/logger.cpp
+    src/texture.cpp
 )
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

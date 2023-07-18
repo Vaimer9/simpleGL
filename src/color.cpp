@@ -1,5 +1,5 @@
 #include <cmath>
-#include <color.hpp>
+#include "color.hpp"
 
 namespace sgl {
 

@@ -19,7 +19,7 @@ int main()
 
     // Create a renderable rectangle with dimensions 0.5x0.5
     // Give it an initial position of (0, 0)
-    sgl::Rectangle rectangle(0, 0, 0.5, 0.5);
+    sgl::Rectangle rectangle(glm::vec2(0, 0), 0.5, 0.5);
 
     // Start the main loop which runs the given lambda every tick 
     window.loop([&] {
