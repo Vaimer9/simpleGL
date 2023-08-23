@@ -4,6 +4,7 @@
 #include <map>
 #include <utility>
 #include <vector>
+#include "texture.hpp"
 #include "vbo.hpp"
 
 namespace sgl {
@@ -12,8 +13,8 @@ class Vao {
 private:
     GLuint handle_;
     std::vector<ArrayBuffer*> array_buffers_;
-    size_t size_;
     Vbo* element_buffer_ = nullptr; 
+    size_t size_;
 
 public:
     Vao(size_t size);

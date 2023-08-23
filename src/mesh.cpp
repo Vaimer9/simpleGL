@@ -12,6 +12,7 @@ Mesh::Mesh(Vao* vao, Shader* shader, Tint tint = Tint())
 {
     this->set_shader(shader);
     this->set_vao(vao);
+
     this->set_tint(tint);
 }
 
@@ -27,13 +28,14 @@ Mesh& Mesh::set_vao(Vao* vao)
     return *this;
 }
 
+
 Mesh& Mesh::set_shader(Shader* shader)
 {
     shader_ = shader;
 
     if (!shader_)
     {
-        log_warn("Provided nullptr as shader. Using default shader.");
+        log_warn("Provided NULL as shader. Using default shader.");
         shader_ = new Shader(true);
     }
 
@@ -73,25 +75,38 @@ Mesh& Mesh::set_tint(Tint tint)
     return *this; 
 }
 
-void Mesh::set_texture(Texture texture)
+Mesh& Mesh::set_image(TextureBuffer* texBuff)
 {
-    texture_ = texture; 
+    // this->vao_->add_texture_buffer(texBuff);
+    texBuff_ = texBuff;
+    
+    if (!texBuff_)
+    {
+        log_error("Provided NULL as TextureBuffer.");
+    }
 
-    float vertices[] = { 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f };
+    texBuff->set_vertices({
+        1.f, 1.f,
+        1.f, 0.f,
+        0.f, 0.f,
+        0.f, 1.f
+    });
 
-    ArrayBuffer* textureBuffer = new ArrayBuffer(
-        (void*)vertices,
-        sizeof(vertices),
+    ArrayBuffer* texVbo = new ArrayBuffer(
+        (void*)texBuff_->vertices().data(),
+        texBuff_->vertices().size() * sizeof(float),
         GL_STATIC_DRAW
     );
 
-    textureBuffer->set_index(2)
+    texVbo->set_index(2) // Texture Buffer will always have vertex attrib address 2
         .set_size(2)
         .set_type(GL_FLOAT)
-        .set_normalized(GL_FALSE)
+        .set_normalized(false)
         .set_stride(0);
 
-    vao_->add_array_buffer(textureBuffer);
+    vao_->add_array_buffer(texVbo);
+
+    return *this;
 }
 
 Mesh& Mesh::set_vertices(int vertices)
@@ -119,9 +134,10 @@ void Mesh::render()
         return;
     }
 
+    vao_->bind();
+
     for (auto arrbuf : vao_->array_buffers())
     {
-        vao_->bind(); // TODO: PUT THIS BEFORE THE LOOP OMG
         arrbuf->bind();
         glEnableVertexAttribArray(arrbuf->index());
         glVertexAttribPointer(
@@ -135,6 +151,11 @@ void Mesh::render()
         arrbuf->unbind();
     }
     shader_->set_mat4("mvp_matrix_p", transformation_matrix_);
+    shader_->set_vec1("textureSampler", 0);
+
+    glActiveTexture(GL_TEXTURE0);
+    this->texBuff_->bind();
+
     if (vao_->elements())
     {
         glDrawElements(draw_mode_, this->vertices(), GL_UNSIGNED_INT, nullptr);

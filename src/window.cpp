@@ -21,6 +21,7 @@ void Window::loop(std::function<void()> func)
     while (!this->get_key(exit_key_) && !this->should_close())
     {
         glClear(GL_COLOR_BUFFER_BIT);
+        glActiveTexture(GL_TEXTURE0);
 
         func();
 

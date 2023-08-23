@@ -11,11 +11,11 @@ public:
     GLuint handle_;
     GLenum target_;
 
-    Vbo() {}
+    Vbo() {};
     Vbo(GLenum target);
     Vbo(GLenum target, void* data, size_t data_size, GLenum usage);
     ~Vbo();
-    
+
     GLenum& target();
     virtual void gen_buffers();
     virtual void bind();

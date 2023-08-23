@@ -8,7 +8,8 @@ namespace sgl {
 
 Image::Image(std::string path)
 {
-    data_ = stbi_load(path.data(), &width_, &height_, &channels_, 0);
+    path_ = path;
+    this->load();
 }
 
 Image::~Image()
@@ -31,41 +32,57 @@ int Image::height()
     return height_;
 }
 
-TextureBuffer::TextureBuffer()
+void Image::load()
 {
-    glGenTextures(1, &handle_);
+    data_ = stbi_load(path_.data(), &width_, &height_, &channels_, 0);
+
+    if (!data_)
+    {
+        log_error("Could not load texture file `" + path_ + "`.");
+    }
 }
 
-TextureBuffer::TextureBuffer(Image image)
+TextureBuffer::TextureBuffer()
 {
-    glGenTextures(1, &handle_); 
+    glGenTextures(1, &texture_handle_);
+}
+
+TextureBuffer::TextureBuffer(Image* image)
+{
     this->load_image(image);
 }
 
-void Texture::set_vertices(std::vector<float> vertices = {})
-{
-    vertices_ = vertices;
-}
-
-void TextureBuffer::load_image(Image image)
+void TextureBuffer::load_image(Image* image)
 {
     image_ = image;
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image_.width(), image_.height(), 0, GL_RGB, GL_UNSIGNED_BYTE, image.data());
-    glGenerateMipmap(GL_TEXTURE_2D);
+
+    this->bind();
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image_->width(), image_->height(), 0, GL_RGB8, GL_UNSIGNED_BYTE, image_->data());
+    this->unbind();
 }
 
 void TextureBuffer::bind()
 {
-    glBindTexture(GL_TEXTURE_2D, handle_);
+    glBindTexture(GL_TEXTURE_2D, texture_handle_);
 }
 
 void TextureBuffer::unbind()
 {
     glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void TextureBuffer::set_vertices(std::vector<float> vertices)
+{
+    vertices_ = vertices;
+}
+
+std::vector<float> TextureBuffer::vertices()
+{
+    return this->vertices_;
 }
 
 }

@@ -17,7 +17,7 @@ class Mesh
     GLenum draw_mode_ = GL_TRIANGLES;
     int vertices_;
     Tint tint_;
-    Texture texture_;
+    TextureBuffer* texBuff_;
     glm::mat4 transformation_matrix_ = glm::mat4(1);
 
 public:
@@ -29,7 +29,7 @@ public:
     void rotate_radians(float radians);
     void scale(glm::vec3 scale_matrix);
     void translate(glm::vec3 translation_matrix);
-    void set_texture(Texture texture);
+    Mesh& set_image(TextureBuffer* texBuff);
 
     virtual void render();
     int& vertices();

@@ -24,6 +24,9 @@ public:
     void load_shaders();
     Shader& use();
 
+    Shader& set_vec1(std::string name, glm::vec1& val);
+    Shader& set_vec1(std::string name, float x);
+
     Shader& set_vec2(std::string name, glm::vec2& val);
     Shader& set_vec2(std::string name, float x, float y);
 

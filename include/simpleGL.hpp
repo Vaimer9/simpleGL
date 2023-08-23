@@ -8,3 +8,5 @@
 #include "simpleGL/vbo.hpp"
 #include "simpleGL/window.hpp"
 #include "simpleGL/logger.hpp"
+#include "simpleGL/texture.hpp"
+#include "simpleGL/color.hpp"

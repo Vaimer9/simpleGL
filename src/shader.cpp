@@ -19,16 +19,17 @@ std::string default_vertex =
 "void main() {\n"
 "   gl_Position = mvp_matrix_p * vec4(v_Org, 1);\n"
 "   frag_Color = c_Org;\n"
+"   frag_Tex = t_Org;\n"
 "}";
 
 std::string default_fragment =
 "#version 330 core\n"
-"out vec4 color;\n"
+"out vec3 color;\n"
 "in vec3 frag_Color;\n"
 "in vec2 frag_Tex;\n"
-"uniform sampler2D ourTexture;\n"
+"uniform sampler2D textureSampler;\n"
 "void main() {\n"
-"   color = texture(ourTexture, frag_Tex) * vec4(frag_Color, 1);\n"
+"   color = texture(textureSampler, frag_Tex).rgb * frag_Color;\n"
 "}";
 
 Shader::Shader(std::string vert, std::string frag, bool load):
@@ -155,6 +156,18 @@ Shader& Shader::use()
 {
     log_info("Using `" + vertex_path_ + "` and `" + fragment_path_ + "` as shader");
     glUseProgram(shader_id_);
+    return *this;
+}
+
+Shader& Shader::set_vec1(std::string name, glm::vec1& val)
+{
+    glUniform1i(glGetUniformLocation(this->id(), name.c_str()), val.x);
+    return *this;
+}
+
+Shader& Shader::set_vec1(std::string name, float x)
+{
+    glUniform1i(glGetUniformLocation(this->id(), name.c_str()), x);
     return *this;
 }
 

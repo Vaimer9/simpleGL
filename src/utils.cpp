@@ -17,10 +17,6 @@ void init()
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0.0, (float)width, (float)height, 0.0, -1.0, 1.0);
-    glMatrixMode(GL_MODELVIEW);
 }
 
 void exit_sgl()

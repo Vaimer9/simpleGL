@@ -8,14 +8,15 @@
 
 namespace sgl {
 
+/// This class has nothing to do with openGL or graphics, it only handles loading images
 class Image
 {
-    std::string path;
+    std::string path_;
     int width_, height_, channels_;
     unsigned char* data_ = nullptr;
 
 public:
-    Image();
+    Image() {};
     Image(std::string path);
     ~Image();
     unsigned char* data();
@@ -24,32 +25,25 @@ public:
     void load();
 };
 
-class Texture {
-    Image image_;
-    unsigned int handle_;
-    std::vector<float> vertices_;
 
-public:
-    Texture();
-    Texture(Image image);
-    void load(std::string path);
-    void free_data();
-    void set_vertices(std::vector<float> vertices);
-    void bind();
-    void unbind();
-};
-
-class TextureBuffer : public ArrayBuffer
+/// Class for handling Texture Coordinates and TexCoord vertex attribute upload
+class TextureBuffer
 {
-    Image image_;
+    Image* image_;
+    std::vector<float> vertices_;
+    unsigned int texture_handle_;
 
 public:
     TextureBuffer();
-    TextureBuffer(Image image);
-    void gen_buffers() override;
-    void bind() override;
-    void unbind() override;
-    void load_image(Image image);
+    ~TextureBuffer() {};
+    TextureBuffer(Image* image);
+    void load_image(Image* image);
+    void bind();
+    void unbind();
+
+    // Dumb util functions
+    std::vector<float> vertices();
+    void set_vertices(std::vector<float> = {});
 };
 
 } // namespace sgl
