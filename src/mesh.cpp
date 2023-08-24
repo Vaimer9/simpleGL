@@ -138,6 +138,7 @@ void Mesh::render()
 
     for (auto arrbuf : vao_->array_buffers())
     {
+        // TODO: Put this in a separate init() method, Vertex attrib need not be defined every frame
         arrbuf->bind();
         glEnableVertexAttribArray(arrbuf->index());
         glVertexAttribPointer(
@@ -150,10 +151,12 @@ void Mesh::render()
         );
         arrbuf->unbind();
     }
+
+    glActiveTexture(GL_TEXTURE0);
+
     shader_->set_mat4("mvp_matrix_p", transformation_matrix_);
     shader_->set_vec1("textureSampler", 0);
 
-    glActiveTexture(GL_TEXTURE0);
     this->texBuff_->bind();
 
     if (vao_->elements())

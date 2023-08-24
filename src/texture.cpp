@@ -49,6 +49,7 @@ TextureBuffer::TextureBuffer()
 
 TextureBuffer::TextureBuffer(Image* image)
 {
+    glGenTextures(1, &texture_handle_);
     this->load_image(image);
 }
 
@@ -61,7 +62,7 @@ void TextureBuffer::load_image(Image* image)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image_->width(), image_->height(), 0, GL_RGB8, GL_UNSIGNED_BYTE, image_->data());
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, image_->width(), image_->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, image_->data());
     this->unbind();
 }
 
