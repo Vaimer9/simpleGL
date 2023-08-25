@@ -11,6 +11,7 @@ set(SOURCES
     src/window.cpp
     src/vao.cpp
     src/vbo.cpp
+    src/texture.cpp
     src/shapes.cpp
     src/mesh.cpp
     src/logger.cpp

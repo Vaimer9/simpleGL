@@ -8,24 +8,37 @@
 
 namespace sgl {
 
-std::string default_vertex =
-"#version 330 core\n"
-"layout(location = 0) in vec3 v_Org;\n"
-"layout(location = 1) in vec3 c_Org;\n"
-"uniform mat4 mvp_matrix_p;\n"
-"out vec3 frag_Color;\n"
-"void main() {\n"
-"   gl_Position = mvp_matrix_p * vec4(v_Org, 1);\n"
-"   frag_Color = c_Org;\n"
-"}";
+std::string default_vertex = R"(
+#version 330 core
 
-std::string default_fragment =
-"#version 330 core\n"
-"out vec4 color;\n"
-"in vec3 frag_Color;\n"
-"void main() {\n"
-"   color = vec4(frag_Color, 1);\n"
-"}";
+layout(location = 0) in vec3 v_Org;
+layout(location = 1) in vec3 c_Org;
+layout(location = 2) in vec2 t_Org;
+
+uniform mat4 mvp_matrix_p;
+out vec3 frag_color;
+out vec2 tex_coord;
+
+void main() {
+    gl_Position = mvp_matrix_p * vec4(v_Org, 1);
+    frag_color = c_Org;
+    tex_coord = vec2(t_Org.x, t_Org.y);
+}
+)";
+
+std::string default_fragment = R"(
+#version 330 core
+
+out vec4 color;
+in vec3 frag_color;
+in vec2 tex_coord;
+
+uniform sampler2D texture_sampler;
+
+void main() {
+    color = texture(texture_sampler, tex_coord);
+}
+)";
 
 Shader::Shader(std::string vert, std::string frag, bool load):
     vertex_path_(vert), fragment_path_(frag)
@@ -108,7 +121,7 @@ void Shader::load_shaders()
 	if ( InfoLogLength > 0 ){
 		std::vector<char> VertexShaderErrorMessage(InfoLogLength+1);
 		glGetShaderInfoLog(VertexShaderID, InfoLogLength, nullptr, &VertexShaderErrorMessage[0]);
-        std::cout << &VertexShaderErrorMessage[0] << std::endl;
+        std::cout << "Vertex: " << &VertexShaderErrorMessage[0] << std::endl;
 	}
 
 	// Compile Fragment Shader
@@ -122,7 +135,7 @@ void Shader::load_shaders()
 	if ( InfoLogLength > 0 ) {
 		std::vector<char> FragmentShaderErrorMessage(InfoLogLength+1);
 		glGetShaderInfoLog(FragmentShaderID, InfoLogLength, nullptr, &FragmentShaderErrorMessage[0]);
-        std::cout << &FragmentShaderErrorMessage[0] << std::endl;
+        std::cout << "Fragment: " << &FragmentShaderErrorMessage[0] << std::endl;
 	}
 
 	// Link the program
@@ -151,6 +164,18 @@ Shader& Shader::use()
 {
     log_info("Using `" + vertex_path_ + "` and `" + fragment_path_ + "` as shader");
     glUseProgram(shader_id_);
+    return *this;
+}
+
+Shader& Shader::set_vec1(std::string name, glm::vec1& val)
+{
+    glUniform1f(glGetUniformLocation(this->id(), name.c_str()), val.x);
+    return *this;
+}
+
+Shader& Shader::set_vec1(std::string name, float x)
+{
+    glUniform1f(glGetUniformLocation(this->id(), name.c_str()), x);
     return *this;
 }
 

@@ -5,6 +5,7 @@
 #include "vao.hpp"
 #include <cstddef>
 #include <optional>
+#include "texture.hpp"
 #include <glm/mat3x3.hpp>
 
 namespace sgl {
@@ -12,6 +13,7 @@ namespace sgl {
 class Mesh
 {
     Vao* vao_ = nullptr;
+    Texture* texture_ = nullptr;
     Shader* shader_ = nullptr;
     GLenum draw_mode_ = GL_TRIANGLES;
     int vertices_;
@@ -27,6 +29,7 @@ public:
     void rotate_radians(float radians);
     void scale(glm::vec3 scale_matrix);
     void translate(glm::vec3 translation_matrix);
+    void set_texture(Texture* texture);
 
     virtual void render();
     int& vertices();

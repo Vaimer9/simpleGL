@@ -1,5 +1,6 @@
 #pragma once
 
+#include "simpleGL/texture.hpp"
 #include "simpleGL/mesh.hpp"
 #include "simpleGL/shader.hpp"
 #include "simpleGL/shapes.hpp"

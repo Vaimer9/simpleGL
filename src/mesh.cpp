@@ -42,6 +42,7 @@ Mesh& Mesh::set_shader(Shader* shader)
     return *this;
 }
 
+// TODO: Allow custom color vertices / data!
 Mesh& Mesh::set_tint(Tint tint)
 {
     tint_ = tint;
@@ -73,6 +74,37 @@ Mesh& Mesh::set_tint(Tint tint)
     return *this; 
 }
 
+void Mesh::set_texture(Texture* texture)
+{
+    texture_ = texture; 
+
+    if (!texture)
+    {
+        log_error("Given texture is NULL");
+    }
+
+    texture_->set_vertices({
+        1.0f, 1.0f,
+        1.0f, 0.0f,
+        0.0f, 0.0f,
+        0.0f, 1.0f
+    });
+
+    ArrayBuffer* texBuff = new ArrayBuffer(
+        (void*)texture_->vertices().data(),
+        sizeof(float) * texture_->vertices().size(),
+        GL_STATIC_DRAW
+    );
+
+    texBuff->set_index(2)
+        .set_size(2)
+        .set_type(GL_FLOAT)
+        .set_normalized(GL_FALSE)
+        .set_stride(0);
+
+    vao_->add_array_buffer(texBuff);
+}
+
 Mesh& Mesh::set_vertices(int vertices)
 {
     vertices_ = vertices; 
@@ -98,9 +130,9 @@ void Mesh::render()
         return;
     }
 
-
     for (auto arrbuf : vao_->array_buffers())
     {
+        // TODO: Put this in a separate init() method, Vertex attrib need not be defined every frame
         vao_->bind();
         arrbuf->bind();
         glEnableVertexAttribArray(arrbuf->index());
@@ -114,14 +146,23 @@ void Mesh::render()
         );
         arrbuf->unbind();
     }
+
     shader_->set_mat4("mvp_matrix_p", transformation_matrix_);
+    shader_->set_vec1("texture_sampler", 0);
+
+    glActiveTexture(GL_TEXTURE0);
+    texture_->bind();
+
     if (vao_->elements())
     {
         glDrawElements(draw_mode_, this->vertices(), GL_UNSIGNED_INT, nullptr);
     } else
     {
+        // TODO: Make sure this still works lol
+        // Because there isn't any simpleGL internal that uses raw arrays without EBOs
         glDrawArrays(draw_mode_, 0, this->vertices());
     }
+
     vao_->unbind();
 }
 
